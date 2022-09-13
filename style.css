@@ -1,1 +1,21 @@
-/*# sourceMappingURL=style.css.map */
+.start-traverse-btn {
+  display: flex;
+  margin: 0 auto;
+  padding: 5px 20px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  -webkit-text-decoration: double;
+          text-decoration: double;
+  background-color: rgb(219, 25, 25);
+  transition: 0.5s;
+}
+.start-traverse-btn:hover {
+  padding: 5px 25px;
+  background-color: rgb(242, 63, 63);
+  color: rgb(255, 255, 255);
+}
+.start-traverse-btn:active {
+  padding: 5px 17px;
+  background-color: rgb(189, 9, 9);
+}/*# sourceMappingURL=style.css.map */
