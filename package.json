@@ -1,0 +1,11 @@
+{
+  "name": "path_traverse_visualize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "draw_items.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

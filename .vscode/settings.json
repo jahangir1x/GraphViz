@@ -1,0 +1,5 @@
+{
+    "liveSassCompile.settings.showOutputWindowOn": "None",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
+}
