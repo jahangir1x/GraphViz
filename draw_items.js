@@ -45,19 +45,21 @@ function startTraverse() {
         steps.push(current);
 
         const neighbors = [];
-        if (current[0] - 1 >= 0) {
-            neighbors.push([current[0] - 1, current[1]]);
+        const current_row = current[0];
+        const current_col = current[1];
+        if (current_row - 1 >= 0 && points[current_row - 1][current_col].style.fill != marked_point_color) {
+            neighbors.push([current_row - 1, current_col]);
         }
-        if (current[1] - 1 >= 0) {
-            neighbors.push([current[0], current[1] - 1]);
+        if (current_col - 1 >= 0 && points[current_row][current_col - 1].style.fill != marked_point_color) {
+            neighbors.push([current_row, current_col - 1]);
         }
 
 
-        if (current[0] + 1 < total_row) {
-            neighbors.push([current[0] + 1, current[1]])
+        if (current_row + 1 < total_row && points[current_row + 1][current_col].style.fill != marked_point_color) {
+            neighbors.push([current_row + 1, current_col])
         }
-        if (current[1] + 1 < total_col) {
-            neighbors.push([current[0], current[1] + 1]);
+        if (current_col + 1 < total_col && points[current_row][current_col + 1].style.fill != marked_point_color) {
+            neighbors.push([current_row, current_col + 1]);
         }
 
         for (let neighbor of neighbors) {
@@ -77,7 +79,7 @@ function visualizeGraph() {
         } else {
             clearInterval(intervalObject);
         }
-    }, 500);
+    }, 100);
 }
 
 document.onmousedown = (eventData) => {
