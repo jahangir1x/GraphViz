@@ -13,42 +13,52 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-9 mt-2 mb-3 mx-auto text-center">
-                <button id="change-start-btn" class="btn btn-success btn-rounded btn-lg">Change Start Point</button>
-                <button id="start-traverse-btn" class="btn btn-primary btn-rounded btn-lg">Start Depth First
-                    Search</button>
-                <button id="stop-traverse-btn" class="btn btn-danger btn-rounded btn-lg">Stop</button>
-                <button id="reset-graph-btn" class="btn btn-danger btn-rounded btn-lg">Reset Graph</button>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="form-outline col-auto">
-                <input type="number" id="row-text" class="form-control" value="10" />
-                <label class="form-label" for="row-text">Row</label>
-            </div>
-            <div class="form-outline col-auto">
-                <input type="number" id="col-text" class="form-control" value="10" />
-                <label class="form-label" for="col-text">Column</label>
-            </div>
-            <div class="form-outline col-auto">
-                <input type="number" id="speed-text" class="form-control" value="100" />
-                <label class="form-label" for="speed-text">Speed (ms/step)</label>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <svg id="path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                </svg>
-            </div>
-            <div class="col-md-5">
+    <div class="container-fluid snap-container">
+        <section style="text-align: center;">
+            <h1 class="display-2 text-center">Graph Traversal Visualize</h1>
+            <div>
                 <a href="#!" class="ripple">
-                    <img src="images/graph-demo.gif" alt="Graph visualiztion demo" class="img-fluid rounded">
+                    <img src="images/graph-demo.gif" alt="Graph visualiztion demo" class="img-fluid rounded"
+                        style="width: 80vh; margin-top: 5vh;">
                 </a>
             </div>
-        </div>
+            <svg class="down-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path
+                    d="M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z" />
+            </svg>
+        </section>
+        <section>
+            <div class="row">
+                <div class="col-md-12 mt-2 mb-3 mx-auto text-center">
+                    <button id="change-start-btn" class="btn btn-success btn-rounded btn-lg">Change Start Point</button>
+                    <button id="start-traverse-btn" class="btn btn-primary btn-rounded btn-lg">Start Breadth First
+                        Search</button>
+                    <button id="stop-traverse-btn" class="btn btn-danger btn-rounded btn-lg">Stop</button>
+                    <button id="reset-graph-btn" class="btn btn-danger btn-rounded btn-lg">Reset Graph</button>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-outline col-auto">
+                    <input type="number" id="row-text" class="form-control" value="10" />
+                    <label class="form-label" for="row-text">Row</label>
+                </div>
+                <div class="form-outline col-auto">
+                    <input type="number" id="col-text" class="form-control" value="10" />
+                    <label class="form-label" for="col-text">Column</label>
+                </div>
+                <div class="form-outline col-auto">
+                    <input type="number" id="speed-text" class="form-control" value="100" />
+                    <label class="form-label" for="speed-text">Speed (ms/step)</label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <svg id="path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    </svg>
+                </div>
+            </div>
+        </section>
     </div>
     <script src="js/draw_items.js"></script>
     <script type="text/javascript" src="js/mdb.min.js"></script>

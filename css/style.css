@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+section {
+  padding: 3vh;
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+.snap-container {
+  height: 100vh;
+  -ms-scroll-snap-type: y mandatory;
+      scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+.down-arrow {
+  width: 10vh;
+  position: relative;
+  margin-top: 3vh;
+  -webkit-animation: movedown 1s infinite;
+          animation: movedown 1s infinite;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  fill: rgb(0, 164, 255);
+}
+
+@-webkit-keyframes movedown {
+  0% {
+    top: 0px;
+    fill: rgb(0, 164, 255);
+  }
+  50% {
+    top: 40px;
+    fill: rgb(255, 255, 255);
+  }
+  100% {
+    top: 0px;
+    fill: rgb(0, 164, 255);
+  }
+}
+
+@keyframes movedown {
+  0% {
+    top: 0px;
+    fill: rgb(0, 164, 255);
+  }
+  50% {
+    top: 40px;
+    fill: rgb(255, 255, 255);
+  }
+  100% {
+    top: 0px;
+    fill: rgb(0, 164, 255);
+  }
+}/*# sourceMappingURL=style.css.map */
