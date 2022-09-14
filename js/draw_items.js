@@ -5,12 +5,15 @@ var isLeftMouseDown = false;
 var isRightMouseDown = false;
 var totalRow = 20;
 var totalCol = 20;
-var pointWidth = 0.5;
-var pointHeight = 0.5;
+var pointWidth = 10;
+var pointHeight = 10;
 var traverseSpeed = 100;
 var points;
 var intervalObject = undefined;
+var isChangingStartPoint = false;
+var source = [0, 0];
 
+document.getElementById("change-start-btn").addEventListener("click", changeStartPoint);
 document.getElementById("start-traverse-btn").addEventListener("click", startTraverse);
 document.getElementById("stop-traverse-btn").addEventListener("click", stopTraverse);
 document.getElementById("reset-graph-btn").addEventListener("click", resetGraph);
@@ -19,6 +22,19 @@ document.getElementById("col-text").addEventListener("input", updateGraph);
 document.getElementById("speed-text").addEventListener("input", updateSpeed);
 
 updateGraph();
+
+function changeStartPoint() {
+    isChangingStartPoint = true;
+
+    document.querySelector("#change-start-btn").setAttribute("disabled", "");
+    document.querySelector("#start-traverse-btn").setAttribute("disabled", "");
+    document.querySelector("#stop-traverse-btn").setAttribute("disabled", "");
+    document.querySelector("#reset-graph-btn").setAttribute("disabled", "");
+    document.querySelector("#row-text").setAttribute("readonly", "");
+    document.querySelector("#col-text").setAttribute("readonly", "");
+    document.querySelector("#speed-text").setAttribute("readonly", "");
+
+}
 
 function updateSpeed() {
     const speed_input_dom = document.querySelector("#speed-text");
@@ -53,7 +69,7 @@ function updateGraph() {
     }
 
     const pathSVG = document.getElementById("path");
-    pathSVG.setAttribute("viewBox", `0 0 ${totalRow / 2} ${totalCol / 2}`);
+    pathSVG.setAttribute("viewBox", `0 0 ${totalRow * 10} ${totalCol * 10}`);
 
     drawGraph();
 }
@@ -61,48 +77,106 @@ function updateGraph() {
 function drawGraph() {
     console.log(totalRow, totalCol);
     const pathSVG = document.getElementById("path");
-    pathSVG.innerHTML = '';
+
+    pathSVG.innerHTML = `
+            <defs>
+            <clipPath id="round-corner-top-left">
+                <rect x="0" y="0" width="15" height="15" rx="5" ry="5" />
+            </clipPath>
+        </defs>
+        <defs>
+            <clipPath id="round-corner-top-right">
+                <rect x="${(totalRow - 1) * 10 - 5}" y="0" width="15" height="15" rx="5" ry="5" />
+            </clipPath>
+        </defs>
+        <defs>
+            <clipPath id="round-corner-bottom-left">
+                <rect x="0" y="${(totalCol - 1) * 10 - 5}" width="15" height="15" rx="5" ry="5" />
+            </clipPath>
+        </defs>
+        <defs>
+            <clipPath id="round-corner-bottom-right">
+                <rect x="${(totalRow - 1) * 10 - 5}" y="${(totalCol - 1) * 10 - 5}" width="15" height="15" rx="5" ry="5" />
+            </clipPath>
+        </defs>
+        `
     points = Array.from(Array(totalRow), () => new Array(totalCol));
 
     for (let row = 0; row < totalRow; row++) {
         for (let col = 0; col < totalCol; col++) {
-            pathSVG.innerHTML += `<rect class="point" id="point_${row}_${col}" width="${pointWidth}" height="${pointHeight}" x="${pointWidth * row}" y="${pointHeight * col}" />`
+            pathSVG.innerHTML += `<rect class="point" id="point_${row}_${col}" width="${pointWidth}" height="${pointHeight}" x="${pointWidth * row}" y="${pointHeight * col}" style="shape-rendering:crispEdges" />`
         }
     }
+
+
+
 
     for (let row = 0; row < totalRow; row++) {
         for (let col = 0; col < totalCol; col++) {
             points[row][col] = document.getElementById(`point_${row}_${col}`);
             points[row][col].style.fill = normal_point_color;
+
+            var previous_color;
+            points[row][col].addEventListener("mouseenter", () => {
+                if (intervalObject == undefined) {
+                    if (isChangingStartPoint) {
+                        previous_color = points[row][col].style.fill;
+                        points[row][col].style.fill = visited_point_color;
+                    }
+                }
+            });
+            points[row][col].addEventListener("mouseleave", () => {
+                if (intervalObject == undefined) {
+                    if (isChangingStartPoint) {
+                        points[row][col].style.fill = previous_color;
+                    }
+                }
+            });
+
+
             points[row][col].addEventListener('mouseover', () => {
                 if (intervalObject == undefined) {
-                    if (isLeftMouseDown) {
-                        // if (points[row][col].style.fill == marked_point_color) {
-                        // points[row][col].style.fill = normal_point_color;
-                        // } else {
-                        points[row][col].style.fill = marked_point_color;
-                        // }
-                    }
-                    if (isRightMouseDown) {
-                        points[row][col].style.fill = normal_point_color;
+                    if (!isChangingStartPoint) {
+                        if (isLeftMouseDown) {
+                            points[row][col].style.fill = marked_point_color;
+                        }
+                        if (isRightMouseDown) {
+                            points[row][col].style.fill = normal_point_color;
+                        }
                     }
                 }
             });
 
             points[row][col].onmousedown = (eventData) => {
                 if (intervalObject == undefined) {
-                    switch (eventData.button) {
-                        case 0: points[row][col].style.fill = marked_point_color; break;
-                        case 2: points[row][col].style.fill = normal_point_color; break;
+                    if (!isChangingStartPoint) {
+                        switch (eventData.button) {
+                            case 0: points[row][col].style.fill = marked_point_color; break;
+                            case 2: points[row][col].style.fill = normal_point_color; break;
+                        }
+                    } else {
+                        isChangingStartPoint = false;
+                        points[source[0]][source[1]].style.fill = normal_point_color;
+                        source = [row, col];
+
+                        document.querySelector("#change-start-btn").removeAttribute("disabled");
+                        document.querySelector("#start-traverse-btn").removeAttribute("disabled");
+                        document.querySelector("#stop-traverse-btn").removeAttribute("disabled");
+                        document.querySelector("#reset-graph-btn").removeAttribute("disabled");
+                        document.querySelector("#row-text").removeAttribute("readonly");
+                        document.querySelector("#col-text").removeAttribute("readonly");
+                        document.querySelector("#speed-text").removeAttribute("readonly");
                     }
-                    // if (points[row][col].style.fill == marked_point_color) {
-                    //     points[row][col].style.fill = normal_point_color;
-                    // } else {
-                    // }
                 }
             }
         }
     }
+    points[source[0]][source[1]].style.fill = visited_point_color;
+
+    points[0][0].setAttribute("clip-path", "url(#round-corner-top-left)");
+    points[0][totalCol - 1].setAttribute("clip-path", "url(#round-corner-bottom-left)");
+    points[totalRow - 1][0].setAttribute("clip-path", "url(#round-corner-top-right)");
+    points[totalRow - 1][totalCol - 1].setAttribute("clip-path", "url(#round-corner-bottom-right)");
 }
 
 function stopTraverse() {
@@ -118,10 +192,13 @@ function resetGraph() {
         }
     }
 
+    points[source[0]][source[1]].style.fill = visited_point_color;
+
     document.querySelector("#speed-text").removeAttribute("readonly");
     document.querySelector("#row-text").removeAttribute("readonly");
     document.querySelector("#col-text").removeAttribute("readonly");
     document.querySelector("#start-traverse-btn").removeAttribute("disabled");
+    document.querySelector("#change-start-btn").removeAttribute("disabled");
 }
 
 function startTraverse() {
@@ -133,11 +210,11 @@ function startTraverse() {
     document.querySelector("#row-text").setAttribute("readonly", "");
     document.querySelector("#col-text").setAttribute("readonly", "");
     document.querySelector("#start-traverse-btn").setAttribute("disabled", "");
+    document.querySelector("#change-start-btn").setAttribute("disabled", "");
 
 
     console.log("traverse");
     let visited = new Set();
-    let source = [1, 1];
     const queue = [source];
     const steps = [];
     while (queue.length > 0) {
