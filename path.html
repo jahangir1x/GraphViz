@@ -1,16 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>path</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Graph Visualizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="css/mdb.dark.min.css" />
 </head>
 
 <body>
-    <button id="start-traverse-btn" class="start-traverse-btn">Start Depth First Search</button>
-    <svg id="path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5">
-    </svg>
-    <script src="draw_items.js"></script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 mt-2 mb-3 mx-auto text-center">
+                <button id="start-traverse-btn" class="btn btn-primary btn-rounded btn-lg">Start Depth First
+                    Search</button>
+                <button id="stop-traverse-btn" class="btn btn-danger btn-rounded btn-lg">Stop</button>
+                <button id="reset-graph-btn" class="btn btn-danger btn-rounded btn-lg">Reset Graph</button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-outline col-auto">
+                <input type="number" id="row-text" class="form-control" value="10" />
+                <label class="form-label" for="row-text">Row</label>
+            </div>
+            <div class="form-outline col-auto">
+                <input type="number" id="col-text" class="form-control" value="10" />
+                <label class="form-label" for="col-text">Column</label>
+            </div>
+            <div class="form-outline col-auto">
+                <input type="number" id="speed-text" class="form-control" value="100" />
+                <label class="form-label" for="speed-text">Speed (ms/step)</label>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <svg id="path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">
+                </svg>
+            </div>
+            <div class="col-md-5">
+                <a href="#!" class="ripple">
+                    <img src="images/graph-demo.gif" alt="Graph visualiztion demo" class="img-fluid rounded">
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="js/draw_items.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
 </body>
 
 </html>
